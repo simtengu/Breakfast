@@ -28,7 +28,7 @@
               
                >
             <VerticalStackLayout Spacing="25">
-                <Label Text="SIGN IN" 
+                <Label Text="SIGN INn" 
                        FontAttributes="Bold"
                        FontSize="27"
                        
