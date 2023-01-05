@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Breakfast.ViewModels"
+             xmlns:models="clr-namespace:Breakfast.Models"
+             x:DataType="viewmodels:BreakfastVm"
+             x:Class="Breakfast.MainPage">
+
+    <Grid RowDefinitions="Auto,Auto,*,Auto"
+          Padding="11"
+          RowSpacing="1" 
+          ColumnSpacing="3">
+       
+<!-- Your breakfast -->
+        <HorizontalStackLayout>
+            <Label FontSize="24" FontFamily="RobotoBold" Text="Your " />
+            <Label FontSize="24" TextColor="{StaticResource Primary1}" FontFamily="RobotoBold" Text="Breakfasts" />
+       
+        </HorizontalStackLayout>
+        <!--  breakfast you have created -->
+        <Label Text="Breakfasts you have created" Grid.Row="1"
+               TextColor="DimGrey"
+               Margin="0,0,0,11"/>
+<!-- scrollabel list of breakfasts -->
+        <RefreshView Grid.Row="2" 
+                     IsRefreshing="{Binding IsRefreshing}"
+                     Command="{Binding LoadBreakfastsCommand}">
+            
+        <CollectionView ItemsSource="{Binding Breakfasts}"
+                        >
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout  Orientation="Vertical"
+                                    ItemSpacing="20" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:BreakfastM">
+                    <Border MinimumHeightRequest="250"
+                            Stroke="lightgrey"
+                            >
+                        <Grid ColumnDefinitions="*,2*">
+                            <Image Source="{Binding Image }"
+                                   Aspect="AspectFill"/>
+                            <Grid Grid.Column="1"
+                                  RowDefinitions="Auto,Auto,*,Auto,Auto"
+                                  Padding="12" >
+                                <!--Name-->
+                                <Label 
+                                       FontSize="20"
+                                    FontAttributes="Bold"
+                                       FontFamily="RobotoBold"
+                                       Text="{Binding Name}" />
+                                <!--Start - End -->
+                                <Label Grid.Row="1" Text="Tomorow, 8:00 - 11:00 AM"
+                                       FontSize="12"
+                                       TextColor="DimGrey"/>
+                                <!--Description -->
+                                <Label Grid.Row="2" Margin="0,4" Text="{Binding Description}"  />
+                                <!--Savory-->
+                                <FlexLayout Grid.Row="3"
+                                            AlignItems="Start"
+                                            Wrap="Wrap"
+                                            BindableLayout.ItemsSource="{Binding Savory}">
+
+                                    <BindableLayout.ItemTemplate>
+                                        <DataTemplate>
+                                            <Frame Padding="6"
+                                                   Margin="1"
+                                                   BorderColor="Transparent"
+                                                   BackgroundColor="#ecf7ff">
+                                                
+                                            <Label Text="{Binding .}"  />
+                                            </Frame>
+                                        </DataTemplate>
+                                    </BindableLayout.ItemTemplate>
+                                </FlexLayout>
+                                <!--Sweet-->
+                                <FlexLayout Grid.Row="4"
+                                            AlignItems="Start"
+                                            Wrap="Wrap"
+                                            BindableLayout.ItemsSource="{Binding Sweet}">
+
+                                    <BindableLayout.ItemTemplate>
+                                        <DataTemplate>
+                                            <Frame Padding="6"
+                                                   Margin="1"
+                                                   BorderColor="Transparent"
+                                                   BackgroundColor="#f6ddff">
+
+                                                <Label Text="{Binding .}"  />
+                                            </Frame>
+                                        </DataTemplate>
+                                    </BindableLayout.ItemTemplate>
+                                </FlexLayout>
+
+                            </Grid>
+                        </Grid>
+                        
+                    </Border>
+                   
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+                <CollectionView.EmptyView>
+                    <FlexLayout AlignItems="Center" JustifyContent="Center">
+                        <Label Text="No Breakfast yet..." FontAttributes="Bold" FontFamily="Roboto" FontSize="18" />
+                    </FlexLayout>
+                </CollectionView.EmptyView>
+            
+        </CollectionView>
+        </RefreshView>
+<!-- Create new breakfast button -->
+        <Button Text="Create New Breakfast" 
+                BackgroundColor="Black"
+                Padding="12" 
+                CornerRadius="2"
+                Grid.Row="3"
+                Command="{Binding GoToCreateBreakfastPageCommand}"
+                
+                />
+
+    </Grid>
+
+
+</ContentPage>
